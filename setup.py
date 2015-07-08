@@ -1,6 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
+
 # package meta info
 NAME = "CodeCLI"
 VERSION = "0.1"
