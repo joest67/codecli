@@ -31,7 +31,7 @@ def add_remote(username):
 
     if user_git_url:
         if user_git_url != remote_url:
-            raise Exception("remote %s already exists, delete it first?")
+            raise Exception("remote %s already exists, delete it first?" % username)
         # already added
         return
 

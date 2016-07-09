@@ -4,14 +4,17 @@ from codecli.commands.end import end_branch
 
 def populate_argument_parser(parser):
     parser.add_argument('feature')
+    parser.add_argument('-b', '--base', help="Branch to checkout")
 
 
 def main(args):
-    branch = args.feature
-    start(branch)
+    local_branch = args.feature
+    checkout_branch = args.base or 'master'
+    start(local_branch, checkout_branch=checkout_branch)
 
 
-def start(branch, remote='upstream', fetch_args=[], base_ref='upstream/master'):
+def start(branch, remote='upstream', checkout_branch='master',
+          fetch_args=[]):
     existing_branches = get_branches()
     if branch in existing_branches:
         answer = input("Branch %s exists, (s)witch to it or re(c)reate "
@@ -26,5 +29,6 @@ def start(branch, remote='upstream', fetch_args=[], base_ref='upstream/master'):
         elif answer == 'c':
             end_branch(branch, force=True)
 
+    base_ref = '%s/%s' % (remote, checkout_branch)
     check_call(['git', 'fetch', remote] + fetch_args)
     check_call(['git', 'checkout', '-b', branch, '--no-track', base_ref])

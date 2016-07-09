@@ -89,4 +89,3 @@ def send_pullreq(branch, remote='upstream', remote_branch=None):
         baseref = info['head']['ref']
 
     _send_pullreq(get_remote_repo_name('origin'), branch, base_repo, baseref)
-
