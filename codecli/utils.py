@@ -48,6 +48,18 @@ def merge_with_base(branch, rebase=False, remote='upstream',
                 '%s/%s' % (remote, baseref)])
 
 
+def sync_to_remote(branch, remote='origin', remote_branch=None,
+                   force=False):
+    if remote == 'upstream':
+        print_log('Never push to upstream direct, use pr')
+        return 1
+
+    refspec = branch
+    if remote_branch:
+        refspec = ':'.join(branch, remote_branch)
+    check_call(['git', 'push', remote, refspec])
+
+
 def check_call(cmd, *args, **kwargs):
     cmdstr = cmd if isinstance(cmd, basestring) else ' '.join(cmd)
     print_log(cmdstr)
