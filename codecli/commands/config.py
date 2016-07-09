@@ -1,6 +1,7 @@
 from codecli.utils import get_config, set_config, del_config
 
-CONFIG_KEYS = ['user.email', 'user.name', 'webbrowser.name']
+CONFIG_KEYS = ['user.email', 'user.name', 'webbrowser.name',
+               'provider.name']
 
 
 def populate_argument_parser(parser):
