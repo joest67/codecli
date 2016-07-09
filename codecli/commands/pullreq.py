@@ -1,9 +1,16 @@
 import codecli.commands.fetch
 from codecli.commands.start import start
-from codecli.utils import get_current_branch_name, merge_with_base, \
-        check_call, get_base_branch, get_remote_repo_name, \
-        remote_and_pr_id_from_pr_branch, send_pullreq as _send_pullreq, \
-        print_log, getoutput
+from codecli.utils import (
+    get_current_branch_name,
+    merge_with_base,
+    check_call, get_base_branch,
+    get_remote_repo_name,
+    remote_and_pr_id_from_pr_branch,
+    send_pullreq as _send_pullreq,
+    print_log,
+    getoutput,
+    sync_to_remote,
+)
 from codecli.apic import get_pullinfo
 
 
@@ -62,7 +69,7 @@ def submit_new_pullreq(remote='upstream', remote_branch=None, no_merge=False):
 
 
 def push_to_my_fork(branch):
-    check_call(['git', 'push', '--set-upstream', 'origin', branch])
+    sync_to_remote(branch)
 
 
 def branch_is_published_already(branch):
