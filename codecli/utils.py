@@ -57,7 +57,8 @@ def sync_to_remote(branch, remote='origin', remote_branch=None,
     refspec = branch
     if remote_branch:
         refspec = ':'.join(branch, remote_branch)
-    check_call(['git', 'push', remote, refspec])
+    push_args = ['--force'] if force else []
+    check_call(['git', 'push', remote, refspec] + push_args)
 
 
 def check_call(cmd, *args, **kwargs):

@@ -13,6 +13,8 @@ def populate_argument_parser(parser):
                         help="Remote to fetch")
     parser.add_argument('-a', '--action', default="pull",
                         choices=('pull', 'push'), help="pull/push")
+    parser.add_argument('-f', '--force', action='store_true', default=False,
+                        help='force update')
 
 
 def main(args):
@@ -21,4 +23,5 @@ def main(args):
         merge_with_base(branch, rebase=args.rebase,
                         remote_branch=args.base, remote=args.remote)
     else:
-        sync_to_remote(branch, remote=args.remote, remote_branch=args.base)
+        sync_to_remote(branch, remote=args.remote, remote_branch=args.base,
+                       force=args.force)
