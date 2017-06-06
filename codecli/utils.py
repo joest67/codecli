@@ -6,6 +6,7 @@ import re
 from subprocess import check_call as _check_call, call as _call, Popen, PIPE
 from contextlib import contextmanager
 import webbrowser
+from webbrowser import Chrome
 
 
 def get_current_branch_name():
@@ -210,12 +211,20 @@ def browser_open(url):
     if browser_name.lower() == 'none':
         return
 
-    try:
-        browser = webbrowser.get(browser_name or None)
-    except webbrowser.Error:
-        if browser_name:
-            check_call([browser_name, url])
+    browser = None
+    if browser_name.lower() == 'chrome':
+        browser_path = get_config('webbrowser.path')
+        if not browser_path:
+            return
+
+        browser = Chrome(browser_path)
     else:
+        try:
+            browser = webbrowser.get(browser_name or None)
+        except webbrowser.Error:
+            if browser_name:
+                check_call([browser_name, url])
+    if browser:
         browser.open(url)
 
 
