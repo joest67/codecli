@@ -1,4 +1,4 @@
-from codecli.utils import check_call, get_branches, input
+from codecli.utils import check_call, get_branches, ask
 from codecli.commands.end import end_branch
 
 
@@ -17,9 +17,9 @@ def start(branch, remote='upstream', checkout_branch='master',
           fetch_args=[]):
     existing_branches = get_branches()
     if branch in existing_branches:
-        answer = input("Branch %s exists, (s)witch to it or re(c)reate "
-                       "it?  (S/c) " % branch, pattern=r'[sScC]',
-                       default='s')
+        answer = ask("Branch %s exists, (s)witch to it or re(c)reate "
+                     "it?  (S/c) " % branch, pattern=r'[sScC]',
+                     default='s')
         answer = answer.lower()[0]
 
         if answer == 's':

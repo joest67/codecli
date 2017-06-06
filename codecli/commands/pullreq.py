@@ -41,9 +41,9 @@ def main(args):
 
 def fetch_and_switch_to_pr(pr_id, remote='upstream'):
     ref = '{0}/pr/{1}'.format(remote, pr_id)
-    branch = 'pr/{0}'.format(pr_id) if remote == 'upstream' \
-            else 'pr/{0}/{1}'.format(remote, pr_id)
-    fetch_args=['+refs/pull/{0}/head:refs/remotes/{1}'.format(pr_id, ref)]
+    branch = ('pr/{0}'.format(pr_id) if remote == 'upstream'
+              else 'pr/{0}/{1}'.format(remote, pr_id))
+    fetch_args = ['+refs/pull/{0}/head:refs/remotes/{1}'.format(pr_id, ref)]
     start(branch, remote=remote, fetch_args=fetch_args, base_ref=ref)
 
 
