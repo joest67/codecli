@@ -3,6 +3,8 @@
 import sys
 import logging
 
+from six import print_
+
 
 def main():
     from argparse import ArgumentParser
@@ -20,17 +22,19 @@ def main():
         ('clone', 'clone', "Clone a repository to local"),
         ('fetch', 'fetch', "Set remote and fetch other user's fork"),
         ('end', 'end', "Delete branch locally and on origin remote"),
-        ('merge', 'merge', "Merge an upstream branch to another upstream branch"),
+        ('merge', 'merge',
+         "Merge an upstream branch to another upstream branch"),
     ]
 
     for command, module_name, help_text in subcommands:
         try:
-            module = __import__('codecli.commands.' + module_name, globals(), locals(),
-                                ['populate_argument_parser', 'main'])
+            module = __import__(
+                'codecli.commands.' + module_name, globals(), locals(),
+                ['populate_argument_parser', 'main'])
         except ImportError:
             import traceback
             traceback.print_exc()
-            print >>sys.stderr, "Can not import command %s, skip it" % command
+            print_("Can not import command %s, skip it" % command, file=sys.stderr)
             continue
 
         subparser = subparsers.add_parser(command, description=help_text)

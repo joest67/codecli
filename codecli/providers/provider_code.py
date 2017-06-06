@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import re
-import urllib
 from getpass import getuser
+
+from six.moves.urllib.parse import urlencode
 
 import codecli.utils as utils
 from codecli.providers.base import GitServiceProvider
@@ -14,8 +15,7 @@ class CodeProvider(GitServiceProvider):
     def send_pullreq(self, head_repo, head_ref, base_repo, base_ref):
 
         url = (('http://code.dapps.douban.com/%s/newpull/new?' % head_repo) +
-               urllib.urlencode(dict(head_ref=head_ref, base_ref=base_ref,
-                                     base_repo=base_repo)))
+               urlencode(dict(head_ref=head_ref, base_ref=base_ref, base_repo=base_repo)))
         utils.print_log("goto " + url)
         utils.browser_open(url)
 
@@ -63,7 +63,7 @@ class CodeProvider(GitServiceProvider):
             email = utils.getoutput(['git', 'config', 'user.email']).strip()
             if not email.endswith('@douban.com'):
                 email = '%s@douban.com' % getuser()
-            email = utils.input(
+            email = utils.ask(
                 "Please enter your @douban.com email [%s]: " % email,
                 default=email)
             utils.set_config('user.email', email)
@@ -71,7 +71,7 @@ class CodeProvider(GitServiceProvider):
         name = utils.get_user_name()
         if not name:
             name = email.split('@')[0]
-            name = input("Please enter your name [%s]: " % name, default=name)
+            name = utils.ask("Please enter your name [%s]: " % name, default=name)
             utils.set_config('user.name', name)
 
         for key, value in utils.iter_config():

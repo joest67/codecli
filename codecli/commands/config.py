@@ -17,4 +17,4 @@ def main(args):
     elif args.value:
         set_config(args.key, args.value)
     else:
-        print get_config(args.key)
+        print(get_config(args.key))
